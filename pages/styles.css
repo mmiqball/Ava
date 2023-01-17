@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Manrope', sans-serif;
 }
-
+/* 
 .root {
     display: flex;
     place-content: center flex-start;
@@ -345,7 +348,7 @@ textarea {
 
 
  /* Loading ring animation */
-.loader {
+/* .loader {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -354,7 +357,7 @@ textarea {
     border-right: 2px solid transparent;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
-}
+} 
 
 @keyframes rotation {
     0% {
@@ -364,4 +367,4 @@ textarea {
     100% {
         transform: rotate(360deg);
     }
-}
+} */
