@@ -4,12 +4,17 @@ import Image from 'next/image';
 import {motion} from 'framer-motion'
 
 const Home = () => {
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState('')
+  const [showMenu, setShowMenu] = useState(false)
+  const [userInputHistory, setUserInputHistory] = useState([])
   const [apiOutput, setApiOutput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [onBoarded, setOnBoarded] = useState(false)
+  const [apiOutputHistory, setApiOutputHistory] = useState([])
 
   const callGenerateEndpoint = async () => {
+    setUserInputHistory([...userInputHistory, userInput])
+    setUserInput('')
     setIsGenerating(true);
   
     console.log("Calling OpenAI...")
@@ -26,12 +31,14 @@ const Home = () => {
     console.log("OpenAI replied...", output.text)
 
     setApiOutput(`${output.text}`);
+    setApiOutputHistory([...apiOutputHistory, apiOutput])
     setIsGenerating(false);
   }
   const onUserChangedText = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setUserInput(event.target.value);
   };
+  
   const handleOnBoarding = () => {
     setOnBoarded(!onBoarded)
   }
@@ -39,6 +46,16 @@ const Home = () => {
     <div className="root">
       <div className='container mx-auto grid grid-cols-2'>
         <div className='p-5'>
+          <p>hello</p>
+          {apiOutput && (
+            <div className="">
+              <div className="">
+              </div>
+              <div className="">
+                <p>{apiOutput}</p>
+              </div>
+            </div>
+          )}
           {/* <h1 className='text-5xl my-5'>Meet Ava!</h1> */}
           
           <div className='relative flex justify-center items-center '>
@@ -51,7 +68,7 @@ const Home = () => {
                 "M44.6,-65.1C54.4,-63.2,56.4,-44.9,56.8,-30C57.3,-15.2,56.1,-3.6,53.2,6.8C50.4,17.1,45.7,26.4,38.5,31.7C31.3,37.1,21.5,38.6,11.4,43.7C1.3,48.9,-9.1,57.8,-19.7,58.6C-30.2,59.3,-40.9,52,-45.8,42.1C-50.7,32.1,-49.9,19.6,-49.1,8.5C-48.4,-2.5,-47.9,-12,-43.8,-19.7C-39.8,-27.3,-32.3,-32.9,-24.4,-35.7C-16.5,-38.5,-8.3,-38.4,4.6,-45.5C17.4,-52.6,34.9,-67,44.6,-65.1Z"]}}
                 transition={{
                   ease:'easeOut', 
-                  duration: 3,
+                  duration: 10,
                   repeat: Infinity,
                   repeatType: 'reverse'}}
               fill="#FF5959" d="M26.6,-40.4C37.2,-34.6,50.5,-31.8,58.1,-23.9C65.7,-16.1,67.7,-3,63.9,7.8C60.2,18.6,50.7,27.2,43,38.9C35.4,50.7,29.5,65.6,19.7,69.7C9.8,73.9,-4,67.3,-18,62.6C-32,57.8,-46.1,55,-59.1,47.2C-72,39.4,-83.7,26.6,-84.6,12.9C-85.4,-0.8,-75.5,-15.4,-66.6,-28.6C-57.8,-41.9,-50,-53.9,-39.1,-59.6C-28.2,-65.3,-14.1,-64.8,-3.1,-60C8,-55.3,16,-46.3,26.6,-40.4Z" transform="translate(100 100)" />
@@ -69,12 +86,12 @@ const Home = () => {
                   ]}}
                 transition={{
                   ease:'easeOut', 
-                  duration: 3,
+                  duration: 10,
                   repeat: Infinity,
                   repeatType: 'reverse'}}
               fill="#68DAFE" d="M26.6,-40.4C37.2,-34.6,50.5,-31.8,58.1,-23.9C65.7,-16.1,67.7,-3,63.9,7.8C60.2,18.6,50.7,27.2,43,38.9C35.4,50.7,29.5,65.6,19.7,69.7C9.8,73.9,-4,67.3,-18,62.6C-32,57.8,-46.1,55,-59.1,47.2C-72,39.4,-83.7,26.6,-84.6,12.9C-85.4,-0.8,-75.5,-15.4,-66.6,-28.6C-57.8,-41.9,-50,-53.9,-39.1,-59.6C-28.2,-65.3,-14.1,-64.8,-3.1,-60C8,-55.3,16,-46.3,26.6,-40.4Z" transform="translate(100 100)" />
             </svg>
-            <svg className='absolute' viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg className='absolute w-9/12' viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <motion.path
               
                 opacity={0.7} 
@@ -86,18 +103,18 @@ const Home = () => {
                   ]}}
                 transition={{
                   ease:'easeOut', 
-                  duration: 3,
+                  duration: 10,
                   repeat: Infinity,
                   repeatType: 'reverse'}}
               fill="#FCFF80" d="M26.6,-40.4C37.2,-34.6,50.5,-31.8,58.1,-23.9C65.7,-16.1,67.7,-3,63.9,7.8C60.2,18.6,50.7,27.2,43,38.9C35.4,50.7,29.5,65.6,19.7,69.7C9.8,73.9,-4,67.3,-18,62.6C-32,57.8,-46.1,55,-59.1,47.2C-72,39.4,-83.7,26.6,-84.6,12.9C-85.4,-0.8,-75.5,-15.4,-66.6,-28.6C-57.8,-41.9,-50,-53.9,-39.1,-59.6C-28.2,-65.3,-14.1,-64.8,-3.1,-60C8,-55.3,16,-46.3,26.6,-40.4Z" transform="translate(100 100)" />
             </svg>
-            <img className='drop-shadow-2xl absolute z-10 w-80' src='ava.png' ></img>
+            <img className='drop-shadow-xl absolute z-10 w-80' src='ava-vid.mov' ></img>
             <div className='min-h-screen'></div>
 
           </div>
           
         </div>
-        <div className='p-10 px-20 py-20 text-right'>
+        <div className='p-10 px-20 py-20 text-right max-h-screen'>
           {!onBoarded ? <div>
             <h1 className='text-6xl font-bold'>Meet <span className='text-9xl font-black'>AVA</span></h1>
             <h3 className='text-4xl mb-10' >Your personal guide to all things tech</h3>
@@ -106,15 +123,31 @@ const Home = () => {
               Talk to Ava
             </a>
           </div> :
-          <div className='h-full bg-gray-300 rounded-xl flex flex-col p-5 justify-between'>
-            <p>wed</p>
-            <p>wesadad</p>
+          <div className='h-full bg-gray-300 rounded-xl flex flex-col p-3 justify-between '>
+            <div className="h-full mb-5 max-h-full overflow-y-scroll">
+              {apiOutput && userInputHistory.map((item, index)=> {
+                return (
+                  <div className='w-full flex flex-col items-end'>
+                    <div className='bg-slate-100 mb-5 p-3 text-sm rounded-lg w-8/12'>
+                      <h3 className="text-slate-400 text-xs">YOU</h3>
+                      {item}
+                    </div>
+                    <div className='bg-sky-300 self-start text-left mb-5 p-3 text-sm rounded-lg w-8/12'>
+                      <h3 className="text-slate-400 text-xs">AVA</h3>
+                      {index}
+                      {apiOutputHistory[index+1] + ' MARKER'}
+                      {/* {apiOutput ? apiOutput : '...is thinking...'} */}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
             <div className='flex flex-col'>
-              <textarea placeholder='Ask Ava something...' className='p-3 rounded-lg border-black border-2' >
+              <textarea onChange={onUserChangedText} value={userInput} placeholder='Ask Ava something...' className='p-3 rounded-lg border-black border-2' >
 
               </textarea>
-              <a className='rounded-lg text-center hover:bg-gray-500 bg-gray-900 py-3 mt-5 px-20 text-white font-bold text-lg'>
-                Ask Ava
+              <a onClick={callGenerateEndpoint} className='rounded-lg text-center hover:bg-gray-500 bg-gray-900 py-3 mt-5 px-20 text-white font-bold text-lg'>
+                {isGenerating ? 'Loading...' : 'Ask Ava'}
               </a>
 
             </div>
