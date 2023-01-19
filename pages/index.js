@@ -31,7 +31,7 @@ const Home = () => {
     console.log("OpenAI replied...", output.text)
 
     setApiOutput(`${output.text}`);
-    setApiOutputHistory([...apiOutputHistory, apiOutput])
+    setApiOutputHistory([...apiOutputHistory, output.text])
     setIsGenerating(false);
   }
   const onUserChangedText = (event) => {
@@ -44,21 +44,14 @@ const Home = () => {
   }
   return (
     <div className="root">
-      <div className='container mx-auto grid grid-cols-2'>
-        <div className='p-5'>
-          <p>hello</p>
-          {apiOutput && (
-            <div className="">
-              <div className="">
-              </div>
-              <div className="">
-                <p>{apiOutput}</p>
-              </div>
-            </div>
-          )}
+      <div className='container mx-auto grid grid-cols-1 max-h-screen min-h-screen lg:grid-cols-2'>
+        
+        <div className={`md:p-5 ${onBoarded ? 'hidden md:block' : 'block'}`}>
+        
+          
           {/* <h1 className='text-5xl my-5'>Meet Ava!</h1> */}
           
-          <div className='relative flex justify-center items-center '>
+          <div className='relative flex justify-center items-center -mt-48 md:m-auto'>
             <svg className='absolute' viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <motion.path
                 
@@ -114,18 +107,19 @@ const Home = () => {
           </div>
           
         </div>
-        <div className='p-10 px-20 py-20 text-right max-h-screen'>
-          {!onBoarded ? <div>
-            <h1 className='text-6xl font-bold'>Meet <span className='text-9xl font-black'>AVA</span></h1>
-            <h3 className='text-4xl mb-10' >Your personal guide to all things tech</h3>
-            <p className='text-xl mb-20'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora </p>
-            <a onClick={handleOnBoarding} className='rounded-lg hover:bg-gray-500 bg-gray-900 py-5 px-20 text-white font-bold text-lg'>
+        <div className='p-10 px-20 py-20 text-center md:text-right max-h-screen md:order-last order-first'>
+          {!onBoarded ? 
+          <div>
+            <h1 className='text-3xl md:text-6xl font-bold'>Meet <span className='md:inline block text-7xl md:text-9xl font-black'>AVA</span></h1>
+            <h3 className='text-lg md:text-4xl mb-10 hidden md:block' >Your personal guide to all things tech</h3>
+            <p className='text-xl mb-20 hidden md:block'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora </p>
+            <a onClick={handleOnBoarding} className='rounded-lg text-center hidden md:block hover:bg-gray-500 bg-gray-900 py-5 px-20 text-white font-bold text-lg'>
               Talk to Ava
             </a>
           </div> :
           <div className='h-full bg-gray-300 rounded-xl flex flex-col p-3 justify-between '>
             <div className="h-full mb-5 max-h-full overflow-y-scroll">
-              {apiOutput && userInputHistory.map((item, index)=> {
+              {userInputHistory.map((item, i)=> {
                 return (
                   <div className='w-full flex flex-col items-end'>
                     <div className='bg-slate-100 mb-5 p-3 text-sm rounded-lg w-8/12'>
@@ -134,13 +128,15 @@ const Home = () => {
                     </div>
                     <div className='bg-sky-300 self-start text-left mb-5 p-3 text-sm rounded-lg w-8/12'>
                       <h3 className="text-slate-400 text-xs">AVA</h3>
-                      {index}
-                      {apiOutputHistory[index+1] + ' MARKER'}
-                      {/* {apiOutput ? apiOutput : '...is thinking...'} */}
+                      {apiOutputHistory[i] ? apiOutputHistory[i] : <p className='italic text-sky-100'>... is thinking ...</p>}
+                      
                     </div>
+                   
+                    
                   </div>
                 )
               })}
+              
             </div>
             <div className='flex flex-col'>
               <textarea onChange={onUserChangedText} value={userInput} placeholder='Ask Ava something...' className='p-3 rounded-lg border-black border-2' >
@@ -153,6 +149,13 @@ const Home = () => {
             </div>
           </div>}
         </div>
+        {!onBoarded && 
+        <div className='md:hidden block text-center -mt-32'>
+          <h3 className='text-lg md:text-4xl mb-10' >Your personal guide to all things tech</h3>    
+          <a onClick={handleOnBoarding} className='rounded-lg hover:bg-gray-500 bg-gray-900 py-5 px-20 text-white font-bold text-lg'>
+            Talk to Ava
+          </a>
+        </div> }
 
         
         
